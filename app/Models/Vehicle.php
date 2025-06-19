@@ -14,6 +14,7 @@ class Vehicle extends Model
         'code',
         'type',
         'is_rent',
+        'image'
     ];
 
     public function usageHistories()

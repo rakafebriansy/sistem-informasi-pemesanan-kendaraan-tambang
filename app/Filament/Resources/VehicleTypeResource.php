@@ -21,7 +21,7 @@ class VehicleTypeResource extends Resource
     protected static ?string $model = VehicleType::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
-
+    protected static ?int $navigationSort = 4;
     public static function form(Form $form): Form
     {
         return $form
@@ -30,6 +30,7 @@ class VehicleTypeResource extends Resource
                     TextInput::make('name')
                         ->label('Nama Tipe Kendaraan')
                         ->required()
+                        ->unique()
                         ->maxLength(255),
                 ]),
             ]);

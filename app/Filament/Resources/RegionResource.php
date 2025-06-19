@@ -22,6 +22,7 @@ class RegionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-map';
 
+    protected static ?int $navigationSort = 1;
     public static function form(Form $form): Form
     {
         return $form
@@ -30,6 +31,7 @@ class RegionResource extends Resource
                     TextInput::make('name')
                         ->label('Nama Daerah')
                         ->required()
+                        ->unique()
                         ->maxLength(255),
                 ]),
             ]);

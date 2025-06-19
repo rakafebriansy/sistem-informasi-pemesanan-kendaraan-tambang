@@ -23,7 +23,7 @@ class EmployeeResource extends Resource
     protected static ?string $model = Employee::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
-
+    protected static ?int $navigationSort = 3;
     public static function form(Form $form): Form
     {
         return $form
@@ -32,6 +32,7 @@ class EmployeeResource extends Resource
                 TextInput::make('username')
                     ->label('Username')
                     ->required()
+                    ->unique()
                     ->suffixAction(
                         Forms\Components\Actions\Action::make('generateUsername')
                             ->icon('heroicon-o-arrow-path')

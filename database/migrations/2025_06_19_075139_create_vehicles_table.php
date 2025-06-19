@@ -13,7 +13,8 @@ return new class extends Migration {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('vehicle_type_id');
-            $table->string('code');
+            $table->string('code')->unique();
+            $table->string('image');
             $table->enum('type',['angkutan_barang','angkutan_orang']);
             $table->boolean('is_rent');
             $table->timestamps();
