@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->uuid('admin_id');
             $table->string('username');
+            $table->string('name');
             $table->string('password');
             $table->enum('position', ['staff', 'manager', 'chief']);
             $table->timestamps();
