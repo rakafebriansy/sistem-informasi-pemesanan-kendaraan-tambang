@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 
@@ -63,7 +64,7 @@ class EmployeeResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('username')->searchable()->label('Username'),
-                TextColumn::make('name')->searchable()->label('Nama Pegawai'),
+                TextColumn::make('name')->searchable()->sortable()->label('Nama Pegawai'),
                 TextColumn::make('position')->searchable()->label('Posisi')->formatStateUsing(fn(string $state) => ucwords($state)),
                 TextColumn::make('created_at')
                     ->label('Dibuat')
@@ -71,7 +72,13 @@ class EmployeeResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('position')
+                    ->label('Jenis Kendaraan')
+                    ->options([
+                        'staf' => 'Staf',
+                        'manajer' => 'Manajer',
+                        'kepala' => 'Kepala',
+                    ]),
             ])
             ->actions([
                 ActionGroup::make([
