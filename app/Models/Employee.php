@@ -14,6 +14,7 @@ class Employee extends Authenticatable
     public $incrementing = false;
     protected $fillable = [
         'admin_id',
+        'username',
         'name',
         'email',
         'password',

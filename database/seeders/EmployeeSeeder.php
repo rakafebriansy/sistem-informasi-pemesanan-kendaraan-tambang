@@ -21,21 +21,21 @@ class EmployeeSeeder extends Seeder
             'password' => Hash::make('password'),
             'name' => 'Raka Febrian',
             'admin_id' => $admin->id,
-            'position' => 'staff',
+            'position' => 'staf',
         ]);
         Employee::create([
             'username' => 'ethan',
             'password' => Hash::make('password'),
             'name' => 'Ethan Hunt',
             'admin_id' => $admin->id,
-            'position' => 'manager',
+            'position' => 'manajer',
         ]);
         Employee::create([
             'username' => 'joseph',
             'password' => Hash::make('password'),
             'name' => 'Joseph Goebbels',
             'admin_id' => $admin->id,
-            'position' => 'chief',
+            'position' => 'kepala',
         ]);
     }
 }

@@ -13,6 +13,7 @@ class Admin extends Authenticatable
     protected $keyType = 'string';
     public $incrementing = false;
     protected $fillable = [
+        'username',
         'name',
         'email',
         'password',
