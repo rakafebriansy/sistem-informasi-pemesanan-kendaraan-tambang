@@ -10,6 +10,8 @@ class Employee extends Authenticatable
 {
     use Notifiable, HasUuids;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = [
         'admin_id',
         'name',
@@ -29,7 +31,7 @@ class Employee extends Authenticatable
         ];
     }
 
-    public function admin() 
+    public function admin()
     {
         return $this->belongsTo(Admin::class);
     }

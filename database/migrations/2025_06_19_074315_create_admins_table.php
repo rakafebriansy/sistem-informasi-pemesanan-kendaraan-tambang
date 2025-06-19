@@ -12,9 +12,10 @@ return new class extends Migration {
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('username');
+            $table->string('username')->unique();
             $table->string('password');
             $table->string('name');
+            $table->string('remember_token', 100)->nullable();
             $table->timestamps();
         });
     }

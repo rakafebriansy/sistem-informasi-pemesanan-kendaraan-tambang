@@ -10,6 +10,8 @@ class Admin extends Authenticatable
 {
     use Notifiable, HasUuids;
 
+    protected $keyType = 'string';
+    public $incrementing = false;
     protected $fillable = [
         'name',
         'email',
@@ -27,7 +29,7 @@ class Admin extends Authenticatable
         ];
     }
 
-    public function employees() 
+    public function employees()
     {
         return $this->hasMany(Employee::class);
     }

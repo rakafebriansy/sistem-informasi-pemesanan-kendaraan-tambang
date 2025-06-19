@@ -13,10 +13,11 @@ return new class extends Migration {
         Schema::create('employees', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('admin_id');
-            $table->string('username');
+            $table->string('username')->unique();
             $table->string('name');
             $table->string('password');
             $table->enum('position', ['staff', 'manager', 'chief']);
+            $table->string('remember_token', 100)->nullable();
             $table->timestamps();
 
             $table->foreign('admin_id')->references('id')->on('admins');
