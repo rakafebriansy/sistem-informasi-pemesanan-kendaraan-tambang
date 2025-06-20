@@ -13,7 +13,12 @@ class ListVehicles extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->action(function ($record) {
+                \Illuminate\Support\Facades\Log::info('Aksi tambah kendaraan ditekan di Filament', [
+                    'user' => auth()->user()?->username,
+                    'record_id' => $record->id,
+                ]);
+            }),
         ];
     }
 }

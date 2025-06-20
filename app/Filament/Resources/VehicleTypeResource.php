@@ -55,7 +55,12 @@ class VehicleTypeResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->action(function ($record) {
+                        \Illuminate\Support\Facades\Log::info('Aksi hapus banyak jenis kendaraan ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
                 ]),
             ]);
     }

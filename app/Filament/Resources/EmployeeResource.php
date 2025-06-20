@@ -88,7 +88,12 @@ class EmployeeResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->action(function ($record) {
+                \Illuminate\Support\Facades\Log::info('Aksi hapus banyak pegawai ditekan di Filament', [
+                    'user' => auth()->user()?->username,
+                    'record_id' => $record->id,
+                ]);
+            }),
                 ]),
             ]);
     }
