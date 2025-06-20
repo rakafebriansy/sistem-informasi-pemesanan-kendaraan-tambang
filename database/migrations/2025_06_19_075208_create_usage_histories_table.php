@@ -19,11 +19,11 @@ return new class extends Migration {
             $table->timestamp('start_date');
             $table->timestamp('end_date');
             $table->float('fuel_consumption')->nullable();
-            $table->enum('status', ['not_accepted_yet', 'accepted_by_manager', 'accepted_by_chief', 'done'])->default('not_accepted_yet');
+            $table->enum('status', ['not_accepted_yet', 'accepted_by_manager', 'accepted_by_chief', 'done', 'canceled'])->default('not_accepted_yet');
             $table->timestamps();
 
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
-            $table->foreign('region_id')->references('id')->on('vehicles');
+            $table->foreign('region_id')->references('id')->on('regions');
             $table->foreign('renter_id')->references('id')->on('employees');
             $table->foreign('driver_id')->references('id')->on('employees');
         });
