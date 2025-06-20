@@ -16,26 +16,38 @@ class EmployeeSeeder extends Seeder
     public function run(): void
     {
         $admin = Admin::latest()->first();
+        $positions = collect(['staff', 'manager']);
+
         Employee::create([
             'username' => 'raka',
             'password' => Hash::make('password'),
             'name' => 'Raka Febrian',
             'admin_id' => $admin->id,
-            'position' => 'staf',
+            'position' => 'staff',
         ]);
         Employee::create([
             'username' => 'ethan',
             'password' => Hash::make('password'),
             'name' => 'Ethan Hunt',
             'admin_id' => $admin->id,
-            'position' => 'manajer',
+            'position' => 'manager',
         ]);
         Employee::create([
             'username' => 'joseph',
             'password' => Hash::make('password'),
             'name' => 'Joseph Goebbels',
             'admin_id' => $admin->id,
-            'position' => 'kepala',
+            'position' => 'chief',
         ]);
+
+        for ($i = 0; $i < 0; $i++) {
+            Employee::create([
+                'username' => fake()->userName,
+                'password' => Hash::make('password'),
+                'name' => fake()->name,
+                'admin_id' => $admin->id,
+                'position' => $positions->random(),
+            ]);
+        }
     }
 }

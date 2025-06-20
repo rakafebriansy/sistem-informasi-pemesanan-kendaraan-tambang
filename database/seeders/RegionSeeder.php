@@ -13,7 +13,7 @@ class RegionSeeder extends Seeder
      */
     public function run(): void
     {
-        $cities = ['Surabaya', 'Jakarta', 'Bandung', 'Semarang', 'Malang', 'Jember'];
+        $cities = ['Surabaya', 'Jakarta', 'Bandung', 'Semarang', 'Malang', 'Jember', 'Jepara', 'Manokwari', 'Bintan'];
         foreach ($cities as $city) {
             Region::create([
                 'name' => $city

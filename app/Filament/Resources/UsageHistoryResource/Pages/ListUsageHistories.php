@@ -33,11 +33,11 @@ class ListUsageHistories extends ListRecords
                 ->label('Belum Diterima')
                 ->query(fn($query) => $query->where('status', 'not_accepted_yet')),
             'accepted_by_manager' => Tab::make()
-                ->label('Diterima Manajer')
+                ->label('Diterima manager')
                 ->
                 query(fn($query) => $query->where('status', 'accepted_by_manager')),
             'accepted_by_chief' => Tab::make()
-                ->label('Diterima Kepala')
+                ->label('Diterima chief')
                 ->query(fn($query) => $query->where('status', 'accepted_by_chief')),
             'done' => Tab::make()
                 ->label('Selesai')

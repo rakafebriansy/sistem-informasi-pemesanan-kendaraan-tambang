@@ -13,14 +13,11 @@ class VehicleTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        VehicleType::create([
-            'name' => 'Truk'
-        ]);
-        VehicleType::create([
-            'name' => 'Motor'
-        ]);
-        VehicleType::create([
-            'name' => 'Mobil'
-        ]);
+        $vehicleTypes = ['Truk', 'Sepeda Motor', 'Mobil', 'Dump Truck', 'Excavator', 'Dozer', 'Water Tank', 'Light Vehicle'];
+        foreach ($vehicleTypes as $vehicleType) {
+            VehicleType::create([
+                'name' => $vehicleType
+            ]);
+        }
     }
 }

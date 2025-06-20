@@ -25,7 +25,7 @@ class UsageHistoryResource extends Resource
 {
     private static $statusses = [
         'not_accepted_yet' => 'Belum Diterima',
-        'accepted_by_manager' => 'Diterima Manajer',
+        'accepted_by_manager' => 'Diterima manager',
         'accepted_by_chief' => 'Diterima Kepala',
         'done' => 'Selesai',
         'canceled' => 'Dibatalkan'
@@ -111,14 +111,14 @@ class UsageHistoryResource extends Resource
                 SelectColumn::make('status')
                     ->options(function ($record) {
                         $user = Filament::auth()->user();
-                        if (($record->status === 'not_accepted_yet' || $record->status === 'accepted_by_manager') && $user->position == 'manajer') {
+                        if (($record->status === 'not_accepted_yet' || $record->status === 'accepted_by_manager') && $user->position == 'manager') {
                             return [
                                 'not_accepted_yet' => self::$statusses['not_accepted_yet'],
                                 'accepted_by_manager' => self::$statusses['accepted_by_manager'],
                             ];
                         }
 
-                        if (($record->status === 'accepted_by_manager' || $record->status === 'accepted_by_chief') && $user->position == 'kepala') {
+                        if (($record->status === 'accepted_by_manager' || $record->status === 'accepted_by_chief') && $user->position == 'chief') {
                             return [
                                 'accepted_by_manager' => self::$statusses['accepted_by_manager'],
                                 'accepted_by_chief' => self::$statusses['accepted_by_chief'],
@@ -134,8 +134,8 @@ class UsageHistoryResource extends Resource
                         $user = Filament::auth()->user();
 
                         return match ($record->status) {
-                            'not_accepted_yet' => $user->position !== 'manajer',
-                            'accepted_by_manager' => !in_array($user->position, ['manajer', 'kepala']),
+                            'not_accepted_yet' => $user->position !== 'manager',
+                            'accepted_by_manager' => !in_array($user->position, ['manager', 'kepala']),
                             'accepted_by_chief' => $user->position !== 'kepala',
                             default => true,
                         };

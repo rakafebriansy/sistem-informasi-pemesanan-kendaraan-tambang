@@ -24,6 +24,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->brandName('T-Move')
             ->id('admin')
             ->path('admin')
             ->login(\App\Filament\Auth\Login::class)

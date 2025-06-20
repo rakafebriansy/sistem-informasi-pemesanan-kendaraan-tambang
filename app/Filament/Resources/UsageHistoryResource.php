@@ -27,8 +27,8 @@ class UsageHistoryResource extends Resource
 {
     private static $statusses = [
         'not_accepted_yet' => 'Belum Diterima',
-        'accepted_by_manager' => 'Diterima Manajer',
-        'accepted_by_chief' => 'Diterima Kepala',
+        'accepted_by_manager' => 'Diterima manager',
+        'accepted_by_chief' => 'Diterima chief',
         'done' => 'Selesai',
         'canceled' => 'Dibatalkan'
     ];

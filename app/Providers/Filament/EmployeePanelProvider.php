@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Auth\Login;
 use App\Filament\Employee\Resources\UsageHistoryResource\Pages\UsageHistoryReport;
+use App\Filament\Employee\Resources\UsageHistoryResource\Widgets\MonthlyVehicleBorrowingChart;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,6 +28,7 @@ class EmployeePanelProvider extends PanelProvider
     {
         return $panel
             ->id('employee')
+            ->brandName('T-Move')
             ->path('employee')
             ->colors([
                 'primary' => Color::Amber,
@@ -40,8 +42,7 @@ class EmployeePanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Employee/Widgets'), for: 'App\\Filament\\Employee\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                MonthlyVehicleBorrowingChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -75,9 +75,9 @@ class EmployeeResource extends Resource
                 SelectFilter::make('position')
                     ->label('Jenis Kendaraan')
                     ->options([
-                        'staf' => 'Staf',
-                        'manajer' => 'Manajer',
-                        'kepala' => 'Kepala',
+                        'staff' => 'Staff',
+                        'manager' => 'manager',
+                        'chief' => 'chief',
                     ]),
             ])
             ->actions([
