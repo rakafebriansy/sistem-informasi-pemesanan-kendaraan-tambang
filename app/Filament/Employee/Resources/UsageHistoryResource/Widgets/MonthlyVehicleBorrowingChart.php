@@ -13,14 +13,11 @@ class MonthlyVehicleBorrowingChart extends ChartWidget
     protected function getData(): array
     {
         $usageHistories = UsageHistory::with('vehicle.vehicleType')
-            ->where(function ($query) {
-                $query->where('status', 'accepted_by_chief')
-                    ->orWhere('status', 'done');
-            })
+            ->whereIn('status', ['accepted_by_chief', 'done'])
             ->where('start_date', '>=', Carbon::now()->subDays(30))
             ->get();
 
-        $grouped = (object)$usageHistories
+        $grouped = (object) $usageHistories
             ->groupBy(fn($item) => $item->vehicle->vehicleType->name)
             ->map->count();
 

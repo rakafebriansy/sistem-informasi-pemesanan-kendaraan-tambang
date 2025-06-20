@@ -13,10 +13,7 @@ class VehicleTypeUsagePercentageChart extends ChartWidget
     protected function getData(): array
     {
         $usageHistories = UsageHistory::with('vehicle')
-            ->where(function ($query) {
-                $query->where('status', 'accepted_by_chief')
-                    ->orWhere('status', 'done');
-            })
+            ->whereIn('status', ['accepted_by_chief', 'done'])
             ->get();
 
         $grouped = (object) $usageHistories->groupBy(
@@ -35,7 +32,6 @@ class VehicleTypeUsagePercentageChart extends ChartWidget
                     'data' => $grouped->values()->toArray(),
                     'backgroundColor' => $backgroundColors,
                     'hoverOffset' => 4,
-                    'labels' => 'Jenis Kendaraan',
                 ]
             ]
         ];
