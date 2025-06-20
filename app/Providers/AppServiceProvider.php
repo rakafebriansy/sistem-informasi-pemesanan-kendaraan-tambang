@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Http\Responses\LoginWithUsername;
+use App\Models\Employee;
 use Filament\Http\Responses\Auth\LoginResponse;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // $this->app->singleton(LoginResponse::class, LoginWithUsername::class);
+        $this->app->bind(Authenticatable::class, Employee::class);
     }
 
     /**

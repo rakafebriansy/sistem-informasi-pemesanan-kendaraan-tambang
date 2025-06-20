@@ -39,4 +39,10 @@ class ListUsageHistories extends ListRecords
                 ->query(fn($query) => $query->where('status', 'canceled')),
         ];
     }
+        public function getHeaderWidgets(): array
+    {
+        return [
+            \App\Filament\Employee\Resources\UsageHistoryResource\Widgets\MyExportsWidget::class,
+        ];
+    }
 }

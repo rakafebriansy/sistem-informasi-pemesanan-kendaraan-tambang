@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Notifications\Notifiable;
@@ -36,4 +37,5 @@ class Employee extends Authenticatable
     {
         return $this->belongsTo(Admin::class);
     }
+
 }

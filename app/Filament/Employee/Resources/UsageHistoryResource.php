@@ -2,8 +2,10 @@
 
 namespace App\Filament\Employee\Resources;
 
+use App\Filament\Employee\Resources\ExportResource\Widgets\MyExportsWidget;
 use App\Filament\Employee\Resources\UsageHistoryResource\Pages;
 use App\Filament\Employee\Resources\UsageHistoryResource\RelationManagers;
+use App\Filament\Exports\UsageHistoryExporter;
 use App\Models\UsageHistory;
 use Carbon\Carbon;
 use Filament\Facades\Filament;
@@ -14,6 +16,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportBulkAction;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -155,6 +158,9 @@ class UsageHistoryResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()->exporter(UsageHistoryExporter::class)->after(function (array $data, $livewire) {
+                        $livewire->redirect('/employee/usage-histories');
+                    })
                 ]),
             ]);
     }

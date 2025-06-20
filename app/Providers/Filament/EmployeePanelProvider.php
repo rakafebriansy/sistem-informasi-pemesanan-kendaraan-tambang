@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Auth\Login;
+use App\Filament\Employee\Pages\MyExportsPage;
 use App\Filament\Employee\Resources\UsageHistoryResource\Pages\UsageHistoryReport;
 use App\Filament\Employee\Resources\UsageHistoryResource\Widgets\DailyBorrowingTrendChart;
 use App\Filament\Employee\Resources\UsageHistoryResource\Widgets\FuelUsageChart;
@@ -13,6 +14,7 @@ use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\NavigationItem;
+use Filament\Navigation\UserMenuItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
