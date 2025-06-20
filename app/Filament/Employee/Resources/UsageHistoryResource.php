@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Employee\Resources;
 
-use App\Filament\Resources\UsageHistoryResource\Pages;
-use App\Filament\Resources\UsageHistoryResource\RelationManagers;
+use App\Filament\Employee\Resources\UsageHistoryResource\Pages;
+use App\Filament\Employee\Resources\UsageHistoryResource\RelationManagers;
 use App\Models\UsageHistory;
 use Carbon\Carbon;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -34,7 +32,6 @@ class UsageHistoryResource extends Resource
     ];
     protected static ?string $model = UsageHistory::class;
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
-    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
@@ -113,20 +110,11 @@ class UsageHistoryResource extends Resource
                     }),
                 SelectColumn::make('status')
                     ->options(function ($record) {
-                        if ($record->status === 'not_accepted_yet' || $record->status === 'canceled') {
+                        $user = Filament::auth()->user();
+                        if (($record->status === 'not_accepted_yet' || $record->status === 'accepted_by_manager') && $user->position == 'manajer') {
                             return [
                                 'not_accepted_yet' => self::$statusses['not_accepted_yet'],
-                                'canceled' => self::$statusses['canceled'],
-                            ];
-                        }
-
-                        if (
-                            ($record->status === 'accepted_by_chief' &&
-                                $record->end_date < now()) || $record->status === 'done'
-                        ) {
-                            return [
-                                'accepted_by_chief' => self::$statusses['accepted_by_chief'],
-                                'done' => self::$statusses['done'],
+                                'accepted_by_manager' => self::$statusses['accepted_by_manager'],
                             ];
                         }
 
@@ -134,20 +122,18 @@ class UsageHistoryResource extends Resource
                     })
                     ->disablePlaceholderSelection()
                     ->selectablePlaceholder(false)
-                    ->rules(['in:not_accepted_yet,canceled,done'])
-                    ->disabled(function ($record) {
-                        $options = [];
+                    ->rules(['in:not_accepted_yet,accepted_by_manager,accepted_by_chief'])
+                    ->disabled(function ($record): bool {
+                        $user = Filament::auth()->user();
 
-                        switch ($record->status) {
-                            case 'not_accepted_yet':
-                            case 'accepted_by_chief':
-                            case 'done':
-                            case 'canceled':
-                                return false;
-                            default:
-                                return true;
-                        }
-                    }),
+                        return match ($record->status) {
+                            'not_accepted_yet' => $user->position !== 'manajer',
+                            'accepted_by_manager' => !in_array($user->position, ['manajer', 'kepala']),
+                            'accepted_by_chief' => $user->position !== 'kepala',
+                            default => true,
+                        };
+                    })
+                ,
                 TextColumn::make('fuel_consumption')->sortable()->label('BBM (L)'),
             ])
             ->filters([
@@ -157,11 +143,7 @@ class UsageHistoryResource extends Resource
                     ->searchable(),
             ])
             ->actions([
-                ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
-                ])
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
