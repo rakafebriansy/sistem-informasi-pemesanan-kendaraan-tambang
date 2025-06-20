@@ -43,7 +43,7 @@ class ListUsageHistories extends ListRecords
                 ->label('Kadaluarsa')
                 ->query(
                     fn($query) =>
-                    $query->where('end_date', '<', now())
+                    $query->whereNot('status','done')->where('end_date', '<', now())
                 ),
             'done' => Tab::make()
                 ->label('Selesai')

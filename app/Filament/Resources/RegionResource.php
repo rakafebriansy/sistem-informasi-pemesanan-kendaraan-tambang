@@ -29,7 +29,7 @@ class RegionResource extends Resource
             ->schema([
                 Grid::make(2)->schema([
                     TextInput::make('name')
-                        ->label('Nama Daerah')
+                        ->label('Nama Wilayah')
                         ->required()
                         ->unique()
                         ->maxLength(255),
@@ -41,7 +41,7 @@ class RegionResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->searchable()->label('Nama Daerah'),
+                TextColumn::make('name')->searchable()->label('Nama Wilayah'),
                 TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime('d M Y H:i')
@@ -78,10 +78,10 @@ class RegionResource extends Resource
     }
     public static function getModelLabel(): string
     {
-        return 'Daerah';
+        return 'Wilayah';
     }
     public static function getPluralModelLabel(): string
     {
-        return 'Daerah';
+        return 'Wilayah';
     }
 }

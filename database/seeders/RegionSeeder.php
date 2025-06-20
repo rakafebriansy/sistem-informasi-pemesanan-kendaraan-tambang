@@ -13,9 +13,10 @@ class RegionSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) {
+        $cities = ['Surabaya', 'Jakarta', 'Bandung', 'Semarang', 'Malang', 'Jember'];
+        foreach ($cities as $city) {
             Region::create([
-                'name' => fake()->name
+                'name' => $city
             ]);
         }
     }

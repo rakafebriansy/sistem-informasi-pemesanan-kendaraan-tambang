@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UsageHistoryResource\Pages;
 use App\Filament\Resources\UsageHistoryResource\RelationManagers;
 use App\Models\UsageHistory;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Hidden;
@@ -14,8 +15,10 @@ use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -44,7 +47,7 @@ class UsageHistoryResource extends Resource
                     ->searchable()
                     ->required(),
                 Select::make('region_id')
-                    ->label('Daerah Tujuan')
+                    ->label('Wilayah')
                     ->relationship('region', 'name')
                     ->searchable()
                     ->required(),
@@ -76,10 +79,38 @@ class UsageHistoryResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('vehicle.code')->label('Kendaraan')->searchable(),
-                TextColumn::make('region.name')->label('Daerah'),
-                TextColumn::make('renter.name')->label('Pemesan'),
-                TextColumn::make('start_date')->label('Mulai')->dateTime(),
-                TextColumn::make('end_date')->label('Selesai')->dateTime(),
+                TextColumn::make('region.name')->label('Wilayah'),
+                TextColumn::make('renter.name')->label('Pemesan')->searchable(),
+                TextColumn::make('end_date')
+                    ->label('Status Jatuh Tempo')
+                    ->sortable()
+                    ->formatStateUsing(function ($state) {
+                        if (!$state)
+                            return '-';
+
+                        $now = Carbon::now()->startOfDay();
+                        $end = Carbon::parse($state)->startOfDay();
+
+                        if ($end->equalTo($now)) {
+                            return 'Jatuh tempo';
+                        }
+
+                        if ($end->lessThan($now)) {
+                            return 'Kadaluarsa';
+                        }
+
+                        $diffInMonths = $now->diffInMonths($end);
+                        $tempNow = $now->copy()->addMonths($diffInMonths);
+                        $diffInDays = $tempNow->diffInDays($end);
+
+                        $diff = $diffInDays > 0 ? "{$diffInDays} hari" : '';
+
+                        if ($diffInMonths > 1) {
+                            $diff = "{$diffInMonths} bulan " . $diff;
+                        }
+
+                        return $diff;
+                    }),
                 SelectColumn::make('status')
                     ->options(function ($record) {
                         if ($record->status === 'not_accepted_yet') {
@@ -147,13 +178,20 @@ class UsageHistoryResource extends Resource
 
                         return count($options) === 1;
                     }),
-                TextColumn::make('fuel_consumption')->label('BBM (L)'),
+                TextColumn::make('fuel_consumption')->sortable()->label('BBM (L)'),
             ])
             ->filters([
-                //
+                SelectFilter::make('position')
+                    ->label('Wilayah')
+                    ->relationship('region', 'name')
+                    ->searchable(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
