@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Auth\Login;
 use App\Filament\Employee\Resources\UsageHistoryResource\Pages\UsageHistoryReport;
 use App\Filament\Employee\Resources\UsageHistoryResource\Widgets\DailyBorrowingTrendChart;
+use App\Filament\Employee\Resources\UsageHistoryResource\Widgets\FuelUsageChart;
 use App\Filament\Employee\Resources\UsageHistoryResource\Widgets\MonthlyVehicleBorrowingChart;
 use App\Filament\Employee\Resources\UsageHistoryResource\Widgets\VehicleTypeUsagePercentageChart;
 use Filament\Http\Middleware\Authenticate;
@@ -47,6 +48,7 @@ class EmployeePanelProvider extends PanelProvider
                 MonthlyVehicleBorrowingChart::class,
                 DailyBorrowingTrendChart::class,
                 VehicleTypeUsagePercentageChart::class,
+                FuelUsageChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,
