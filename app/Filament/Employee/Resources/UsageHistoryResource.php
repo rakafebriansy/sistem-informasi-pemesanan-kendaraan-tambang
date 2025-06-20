@@ -118,6 +118,13 @@ class UsageHistoryResource extends Resource
                             ];
                         }
 
+                        if (($record->status === 'accepted_by_manager' || $record->status === 'accepted_by_chief') && $user->position == 'kepala') {
+                            return [
+                                'accepted_by_manager' => self::$statusses['accepted_by_manager'],
+                                'accepted_by_chief' => self::$statusses['accepted_by_chief'],
+                            ];
+                        }
+
                         return [self::$statusses[$record->status]];
                     })
                     ->disablePlaceholderSelection()

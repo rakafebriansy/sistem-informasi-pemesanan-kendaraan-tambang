@@ -39,12 +39,6 @@ class ListUsageHistories extends ListRecords
             'accepted_by_chief' => Tab::make()
                 ->label('Diterima Kepala')
                 ->query(fn($query) => $query->where('status', 'accepted_by_chief')),
-            'expired_date' => Tab::make()
-                ->label('Kadaluarsa')
-                ->query(
-                    fn($query) =>
-                    $query->whereNot('status','done')->where('end_date', '<', now())
-                ),
             'done' => Tab::make()
                 ->label('Selesai')
                 ->query(fn($query) => $query->where('status', 'done')),

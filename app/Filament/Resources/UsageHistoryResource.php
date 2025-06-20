@@ -113,17 +113,29 @@ class UsageHistoryResource extends Resource
                     }),
                 SelectColumn::make('status')
                     ->options(function ($record) {
-                        if ($record->status === 'not_accepted_yet' || $record->status === 'canceled') {
+                        if ($record->status === 'not_accepted_yet') {
                             return [
                                 'not_accepted_yet' => self::$statusses['not_accepted_yet'],
                                 'canceled' => self::$statusses['canceled'],
                             ];
                         }
 
-                        if (
-                            ($record->status === 'accepted_by_chief' &&
-                                $record->end_date < now()) || $record->status === 'done'
-                        ) {
+                        if ($record->status === 'accepted_by_manager') {
+                            return [
+                                'accepted_by_manager' => self::$statusses['accepted_by_manager'],
+                                'canceled' => self::$statusses['canceled'],
+                            ];
+                        }
+
+                        if ($record->status === 'accepted_by_chief') {
+                            return [
+                                'accepted_by_chief' => self::$statusses['accepted_by_chief'],
+                                'done' => self::$statusses['done'],
+                                'canceled' => self::$statusses['canceled'],
+                            ];
+                        }
+
+                        if ($record->status === 'done') {
                             return [
                                 'accepted_by_chief' => self::$statusses['accepted_by_chief'],
                                 'done' => self::$statusses['done'],
@@ -134,7 +146,7 @@ class UsageHistoryResource extends Resource
                     })
                     ->disablePlaceholderSelection()
                     ->selectablePlaceholder(false)
-                    ->rules(['in:not_accepted_yet,canceled,done'])
+                    ->rules(['in:not_accepted_yet,canceled,accepted_by_manager,accepted_by_chief,done,canceled'])
                     ->disabled(function ($record) {
                         $options = [];
 
@@ -142,8 +154,8 @@ class UsageHistoryResource extends Resource
                             case 'not_accepted_yet':
                             case 'accepted_by_chief':
                             case 'done':
-                            case 'canceled':
                                 return false;
+                            case 'canceled':
                             default:
                                 return true;
                         }
