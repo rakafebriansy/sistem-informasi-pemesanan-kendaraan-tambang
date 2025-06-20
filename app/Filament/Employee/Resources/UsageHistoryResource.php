@@ -75,9 +75,9 @@ class UsageHistoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('vehicle.code')->label('Kendaraan')->searchable(),
-                TextColumn::make('region.name')->label('Wilayah'),
-                TextColumn::make('renter.name')->label('Pemesan')->searchable(),
+                TextColumn::make('vehicle.code')->label('Kendaraan')->searchable()->sortable(),
+                TextColumn::make('region.name')->label('Wilayah')->sortable(),
+                TextColumn::make('renter.name')->label('Pemesan')->searchable()->sortable(),
                 TextColumn::make('end_date')
                     ->label('Status Jatuh Tempo')
                     ->sortable()

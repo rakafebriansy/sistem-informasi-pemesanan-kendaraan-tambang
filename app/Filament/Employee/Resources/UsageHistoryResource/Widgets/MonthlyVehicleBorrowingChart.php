@@ -8,11 +8,11 @@ use Filament\Widgets\ChartWidget;
 
 class MonthlyVehicleBorrowingChart extends ChartWidget
 {
-    protected static ?string $heading = 'Peminjaman Kendaraan per Bulan';
+    protected static ?string $heading = 'Peminjaman Kendaraan Bulan Ini';
 
     protected function getData(): array
     {
-        $usageHistories = UsageHistory::with('vehicle')
+        $usageHistories = UsageHistory::with('vehicle.vehicleType')
             ->where(function ($query) {
                 $query->where('status', 'accepted_by_chief')
                     ->orWhere('status', 'done');
