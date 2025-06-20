@@ -171,18 +171,28 @@ class UsageHistoryResource extends Resource
             ->actions([
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\EditAction::make()->after(function ($record) {
+                        \Illuminate\Support\Facades\Log::info('Aksi edit pemakaian kendaraan ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
+                    Tables\Actions\DeleteAction::make()->after(function ($record) {
+                        \Illuminate\Support\Facades\Log::info('Aksi hapus pemakaian kendaraan ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
                 ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()->action(function ($record) {
-                \Illuminate\Support\Facades\Log::info('Aksi hapus banyak pemakaian ditekan di Filament', [
-                    'user' => auth()->user()?->username,
-                    'record_id' => $record->id,
-                ]);
-            }),
+                        \Illuminate\Support\Facades\Log::info('Aksi hapus banyak pemakaian ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
                 ]),
             ]);
     }
@@ -204,10 +214,10 @@ class UsageHistoryResource extends Resource
     }
     public static function getModelLabel(): string
     {
-        return 'Pemakaian';
+        return 'Pemakaian Kendaraan';
     }
     public static function getPluralModelLabel(): string
     {
-        return 'Pemakaian';
+        return 'Pemakaian Kendaraan';
     }
 }

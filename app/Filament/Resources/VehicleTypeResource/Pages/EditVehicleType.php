@@ -13,8 +13,8 @@ class EditVehicleType extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make()->action(function ($record) {
-                \Illuminate\Support\Facades\Log::info('Aksi edit jenis kendaraan ditekan di Filament', [
+            Actions\DeleteAction::make()->after(function ($record) {
+                \Illuminate\Support\Facades\Log::info('Aksi hapus jenis kendaraan ditekan di Filament', [
                     'user' => auth()->user()?->username,
                     'record_id' => $record->id,
                 ]);

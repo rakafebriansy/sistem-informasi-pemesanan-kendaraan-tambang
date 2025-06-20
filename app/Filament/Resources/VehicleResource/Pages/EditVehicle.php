@@ -14,7 +14,7 @@ class EditVehicle extends EditRecord
     {
         return [
             Actions\DeleteAction::make()->action(function ($record) {
-                \Illuminate\Support\Facades\Log::info('Aksi edit kendaraan ditekan di Filament', [
+                \Illuminate\Support\Facades\Log::info('Aksi hapus kendaraan ditekan di Filament', [
                     'user' => auth()->user()?->username,
                     'record_id' => $record->id,
                 ]);

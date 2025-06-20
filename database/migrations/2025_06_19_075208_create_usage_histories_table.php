@@ -22,10 +22,10 @@ return new class extends Migration {
             $table->enum('status', ['not_accepted_yet', 'accepted_by_manager', 'accepted_by_chief', 'done', 'canceled'])->default('not_accepted_yet');
             $table->timestamps();
 
-            $table->foreign('vehicle_id')->references('id')->on('vehicles');
-            $table->foreign('region_id')->references('id')->on('regions');
-            $table->foreign('renter_id')->references('id')->on('employees');
-            $table->foreign('driver_id')->references('id')->on('employees');
+            $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');
+            $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
+            $table->foreign('renter_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('driver_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 

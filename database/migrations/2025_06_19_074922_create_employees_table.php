@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('remember_token', 100)->nullable();
             $table->timestamps();
 
-            $table->foreign('admin_id')->references('id')->on('admins');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
         });
     }
 

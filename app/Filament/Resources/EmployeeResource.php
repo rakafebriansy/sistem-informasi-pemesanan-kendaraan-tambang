@@ -82,18 +82,28 @@ class EmployeeResource extends Resource
             ])
             ->actions([
                 ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\EditAction::make()->after(function ($record) {
+                        \Illuminate\Support\Facades\Log::info('Aksi edit pegawai ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
+                    Tables\Actions\DeleteAction::make()->after(function ($record) {
+                        \Illuminate\Support\Facades\Log::info('Aksi hapus pegawai ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
                 ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()->action(function ($record) {
-                \Illuminate\Support\Facades\Log::info('Aksi hapus banyak pegawai ditekan di Filament', [
-                    'user' => auth()->user()?->username,
-                    'record_id' => $record->id,
-                ]);
-            }),
+                        \Illuminate\Support\Facades\Log::info('Aksi hapus banyak pegawai ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
                 ]),
             ]);
     }

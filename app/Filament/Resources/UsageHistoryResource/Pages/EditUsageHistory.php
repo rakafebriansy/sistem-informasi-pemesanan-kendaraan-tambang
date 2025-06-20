@@ -14,7 +14,7 @@ class EditUsageHistory extends EditRecord
     {
         return [
             Actions\DeleteAction::make()->action(function ($record) {
-                \Illuminate\Support\Facades\Log::info('Aksi edit pemakaian ditekan di Filament', [
+                \Illuminate\Support\Facades\Log::info('Aksi hapus pemakaian ditekan di Filament', [
                     'user' => auth()->user()?->username,
                     'record_id' => $record->id,
                 ]);

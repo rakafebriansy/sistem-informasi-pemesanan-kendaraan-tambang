@@ -90,18 +90,28 @@ class VehicleResource extends Resource
             ->actions([
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
-                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\EditAction::make()->after(function ($record) {
+                        \Illuminate\Support\Facades\Log::info('Aksi edit kendaraan ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
+                    Tables\Actions\DeleteAction::make()->after(function ($record) {
+                        \Illuminate\Support\Facades\Log::info('Aksi hapus kendaraan ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
                 ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()->action(function ($record) {
-                \Illuminate\Support\Facades\Log::info('Aksi hapus banyak kendaraan ditekan di Filament', [
-                    'user' => auth()->user()?->username,
-                    'record_id' => $record->id,
-                ]);
-            }),
+                        \Illuminate\Support\Facades\Log::info('Aksi hapus banyak kendaraan ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    }),
                 ]),
             ]);
     }

@@ -51,17 +51,27 @@ class RegionResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->after(function ($record) {
+                    \Illuminate\Support\Facades\Log::info('Aksi edit wilayah ditekan di Filament', [
+                        'user' => auth()->user()?->username,
+                        'record_id' => $record->id,
+                    ]);
+                }),
+                Tables\Actions\DeleteAction::make()->after(function ($record) {
+                    \Illuminate\Support\Facades\Log::info('Aksi hapus wilayah ditekan di Filament', [
+                        'user' => auth()->user()?->username,
+                        'record_id' => $record->id,
+                    ]);
+                }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()->action(function ($record) {
-                \Illuminate\Support\Facades\Log::info('Aksi hapus banyak wilayah ditekan di Filament', [
-                    'user' => auth()->user()?->username,
-                    'record_id' => $record->id,
-                ]);
-            })
+                        \Illuminate\Support\Facades\Log::info('Aksi hapus banyak wilayah ditekan di Filament', [
+                            'user' => auth()->user()?->username,
+                            'record_id' => $record->id,
+                        ]);
+                    })
                 ]),
             ]);
     }

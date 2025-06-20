@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->boolean('is_rent');
             $table->timestamps();
 
-            $table->foreign('vehicle_type_id')->references('id')->on('vehicle_types');
+            $table->foreign('vehicle_type_id')->references('id')->on('vehicle_types')->onDelete('cascade');
         });
     }
 

@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->uuid('user_id');
-            $table->foreign('user_id')->references('id')->on('employees')->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 
