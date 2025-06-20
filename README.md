@@ -43,3 +43,8 @@ php artisan db:seed
 ```bash
 php artisan serve
 ```
+
+### Run Queue in Another Terminal
+```bash
+php artisan queue:work
+```

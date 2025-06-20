@@ -138,8 +138,8 @@ class UsageHistoryResource extends Resource
 
                         return match ($record->status) {
                             'not_accepted_yet' => $user->position !== 'manager',
-                            'accepted_by_manager' => !in_array($user->position, ['manager', 'kepala']),
-                            'accepted_by_chief' => $user->position !== 'kepala',
+                            'accepted_by_manager' => !in_array($user->position, ['manager', 'chief']),
+                            'accepted_by_chief' => $user->position !== 'chief',
                             default => true,
                         };
                     })
